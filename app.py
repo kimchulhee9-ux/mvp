@@ -330,7 +330,7 @@ def show_home():
     st.markdown(
         """
         <div class="hero">
-            <div class="hero-title">👨‍👩‍👧 육아 부모 유형 진단</div>
+            <div class="hero-title">👨‍👩‍👧 MVP 부모유형 진단</div>
             <div class="hero-brand">- chulhee -</div>
             <div class="hero-subtitle">10개의 질문으로 나의 육아 성향을 알아보세요.</div>
         </div>
@@ -477,7 +477,7 @@ def show_result(questions):
 
 def main():
     st.set_page_config(
-        page_title="육아 부모 유형 진단",
+        page_title="MVP 부모유형 진단",
         page_icon="👨‍👩‍👧",
         layout="centered",
     )
