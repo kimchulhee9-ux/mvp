@@ -266,16 +266,30 @@
 const SCALE = {1:"전혀 아니다", 2:"아니다", 3:"보통이다", 4:"그렇다", 5:"매우 그렇다"};
 
 const QUESTIONS = [
-  {id:1, icon:"💗", text:"아이가 속상해할 때 먼저 감정을 들어주는 편이다.", type:"A"},
-  {id:2, icon:"📏", text:"가정에서 지켜야 할 규칙을 명확하게 알려주는 편이다.", type:"B"},
-  {id:3, icon:"🌱", text:"아이가 스스로 선택하도록 기다려주는 편이다.", type:"C"},
-  {id:4, icon:"⚖️", text:"상황에 따라 공감과 규칙을 함께 고려한다.", type:"D"},
-  {id:5, icon:"🗣️", text:"아이와 대화하며 문제를 해결하려고 한다.", type:"A"},
-  {id:6, icon:"🕒", text:"생활 습관과 약속을 꾸준히 강조한다.", type:"B"},
-  {id:7, icon:"🧩", text:"아이가 직접 해보며 배우는 것을 중요하게 생각한다.", type:"C"},
-  {id:8, icon:"🤝", text:"아이의 감정은 받아주되 행동 기준도 함께 설명한다.", type:"D"},
-  {id:9, icon:"👂", text:"아이의 마음을 이해하려고 질문을 많이 하는 편이다.", type:"A"},
+  // ── 공감형 A (5문항) ──
+  {id:1,  icon:"💗", text:"아이가 속상해할 때 먼저 감정을 들어주는 편이다.", type:"A"},
+  {id:5,  icon:"🗣️", text:"아이와 대화하며 문제를 해결하려고 한다.", type:"A"},
+  {id:9,  icon:"👂", text:"아이의 마음을 이해하려고 질문을 많이 하는 편이다.", type:"A"},
+  {id:11, icon:"🫂", text:"아이가 울거나 화낼 때, 훈계보다 공감을 먼저 한다.", type:"A"},
+  {id:15, icon:"😊", text:"아이의 감정 표현을 억제하지 않고 충분히 들어준다.", type:"A"},
+  // ── 훈육형 B (5문항) ──
+  {id:2,  icon:"📏", text:"가정에서 지켜야 할 규칙을 명확하게 알려주는 편이다.", type:"B"},
+  {id:6,  icon:"🕒", text:"생활 습관과 약속을 꾸준히 강조한다.", type:"B"},
+  {id:12, icon:"📅", text:"취침 시간, 식사 시간 등 일과를 규칙적으로 유지한다.", type:"B"},
+  {id:16, icon:"🏁", text:"아이가 약속을 어겼을 때 반드시 결과를 경험하게 한다.", type:"B"},
+  {id:19, icon:"🎓", text:"집에서 지켜야 할 기본 예절을 반복적으로 가르친다.", type:"B"},
+  // ── 자율형 C (5문항) ──
+  {id:3,  icon:"🌱", text:"아이가 스스로 선택하도록 기다려주는 편이다.", type:"C"},
+  {id:7,  icon:"🧩", text:"아이가 직접 해보며 배우는 것을 중요하게 생각한다.", type:"C"},
   {id:10, icon:"🚀", text:"아이의 자율성과 책임감을 함께 키우려 한다.", type:"C"},
+  {id:13, icon:"⏳", text:"아이가 실수해도 스스로 해결하도록 기다린다.", type:"C"},
+  {id:17, icon:"🗓️", text:"아이에게 하루 중 스스로 결정할 시간을 충분히 준다.", type:"C"},
+  // ── 균형형 D (5문항) ──
+  {id:4,  icon:"⚖️", text:"상황에 따라 공감과 규칙을 함께 고려한다.", type:"D"},
+  {id:8,  icon:"🤝", text:"아이의 감정은 받아주되 행동 기준도 함께 설명한다.", type:"D"},
+  {id:14, icon:"🎯", text:"아이를 훈육할 때 감정과 행동 모두 고려한다.", type:"D"},
+  {id:18, icon:"🌀", text:"아이가 원하는 것과 해야 할 것 사이에서 균형을 찾으려 한다.", type:"D"},
+  {id:20, icon:"💡", text:"아이의 감정을 인정하면서도 행동의 결과를 알려준다.", type:"D"},
 ];
 
 const RESULTS = {
@@ -344,7 +358,7 @@ function renderHome() {
     <div class="hero">
       <div class="hero-title">👨‍👩‍👧 MVP 부모유형 진단</div>
       <div class="hero-brand">- chulhee -</div>
-      <div class="hero-subtitle">10개의 질문으로 나의 육아 성향을 알아보세요.</div>
+      <div class="hero-subtitle">나의 부모 성향을 알아보세요.</div>
     </div>
 
     <div class="card">
