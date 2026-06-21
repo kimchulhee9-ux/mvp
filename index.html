@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MVP 부모유형 진단</title>
   <meta name="description" content="10개의 질문으로 나의 육아 성향을 알아보세요. 공감형, 훈육형, 자율형, 균형형 중 나는 어떤 부모 유형일까요?" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👨‍👩‍👧</text></svg>" />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👨‍👩‍👧</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;800;900&display=swap"
+    rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     :root {
       --primary: #ff9f43;
       --primary-dark: #ff7f50;
       --bg: #fff8ef;
       --bg2: #fffdf9;
-      --card-bg: rgba(255,255,255,0.96);
+      --card-bg: rgba(255, 255, 255, 0.96);
       --result-bg: #fff3e6;
       --border: #ffd9b3;
       --text-dark: #352824;
@@ -41,19 +50,34 @@
     }
 
     /* ── HERO ─────────────────────────────── */
-    .hero { padding: 20px 6px 10px; }
+    .hero {
+      padding: 20px 6px 10px;
+    }
+
     .hero-title {
-      font-size: 2.45rem; font-weight: 900;
-      color: var(--text-dark); line-height: 1.18; letter-spacing: -0.04em;
+      font-size: 2.45rem;
+      font-weight: 900;
+      color: var(--text-dark);
+      line-height: 1.18;
+      letter-spacing: -0.04em;
     }
+
     .hero-brand {
-      text-align: center; margin: 10px 0 18px;
-      font-size: 1rem; font-style: italic; font-weight: 600;
-      color: var(--brand); letter-spacing: 6px;
+      text-align: center;
+      margin: 10px 0 18px;
+      font-size: 1rem;
+      font-style: italic;
+      font-weight: 600;
+      color: var(--brand);
+      letter-spacing: 6px;
     }
+
     .hero-subtitle {
-      font-size: 1.35rem; font-weight: 800;
-      color: var(--text-mid); line-height: 1.45; margin-top: 18px;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text-mid);
+      line-height: 1.45;
+      margin-top: 18px;
     }
 
     /* ── CARDS ────────────────────────────── */
@@ -66,6 +90,7 @@
       margin: 18px 0;
       line-height: 1.7;
     }
+
     .result-card {
       background: var(--result-bg);
       border: 1px solid #ffd0a1;
@@ -74,286 +99,536 @@
       box-shadow: 0 12px 34px var(--shadow);
       margin: 18px 0;
     }
-    .result-emoji { font-size: 3rem; margin-bottom: 10px; display: block; }
-    .result-title {
-      font-size: 1.75rem; font-weight: 900;
-      color: var(--text-dark); line-height: 1.3;
-    }
-    .result-summary {
-      font-size: 1.08rem; font-weight: 800;
-      color: var(--text-mid); line-height: 1.6; margin-top: 10px;
-    }
-    .result-desc { margin-top: 12px; color: var(--text-body); line-height: 1.7; }
 
-    .mini-card h3 { font-size: 1rem; font-weight: 900; color: var(--text-dark); margin-bottom: 6px; }
-    .mini-card p  { font-size: 0.97rem; color: var(--text-body); line-height: 1.65; }
+    .result-emoji {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .result-title {
+      font-size: 1.75rem;
+      font-weight: 900;
+      color: var(--text-dark);
+      line-height: 1.3;
+    }
+
+    .result-summary {
+      font-size: 1.08rem;
+      font-weight: 800;
+      color: var(--text-mid);
+      line-height: 1.6;
+      margin-top: 10px;
+    }
+
+    .result-desc {
+      margin-top: 12px;
+      color: var(--text-body);
+      line-height: 1.7;
+    }
+
+    .mini-card h3 {
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+
+    .mini-card p {
+      font-size: 0.97rem;
+      color: var(--text-body);
+      line-height: 1.65;
+    }
 
     /* ── QUESTION ─────────────────────────── */
     .question-label {
-      font-size: 1.25rem; font-weight: 900;
-      color: var(--text-dark); margin-bottom: 14px;
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--text-dark);
+      margin-bottom: 14px;
     }
+
     .question-text {
-      font-size: 1.18rem; font-weight: 800;
-      color: var(--text-body); line-height: 1.5; letter-spacing: -0.03em;
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--text-body);
+      line-height: 1.5;
+      letter-spacing: -0.03em;
     }
 
     /* ── PROGRESS ─────────────────────────── */
-    .progress-wrap { margin: 18px 0 6px; }
+    .progress-wrap {
+      margin: 18px 0 6px;
+    }
+
     .progress-label {
-      font-size: 0.95rem; font-weight: 700;
-      color: var(--text-mid); margin-bottom: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-mid);
+      margin-bottom: 8px;
     }
+
     .progress-bar {
-      height: 8px; background: #fddcbf;
-      border-radius: 99px; overflow: hidden;
+      height: 8px;
+      background: #fddcbf;
+      border-radius: 99px;
+      overflow: hidden;
     }
+
     .progress-fill {
       height: 100%;
       background: linear-gradient(90deg, var(--primary), var(--primary-dark));
       border-radius: 99px;
-      transition: width 0.4s cubic-bezier(.4,0,.2,1);
+      transition: width 0.4s cubic-bezier(.4, 0, .2, 1);
     }
 
     /* ── RADIO ────────────────────────────── */
-    .radio-group { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
     .radio-option {
-      display: flex; align-items: center; gap: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
       padding: 12px 16px;
       border: 2px solid #ffd9b3;
       border-radius: 14px;
       cursor: pointer;
       transition: all 0.2s;
       background: #fff;
-      font-size: 0.97rem; font-weight: 600; color: var(--text-body);
+      font-size: 0.97rem;
+      font-weight: 600;
+      color: var(--text-body);
       user-select: none;
     }
-    .radio-option:hover { border-color: var(--primary); background: #fff8f0; transform: translateY(-1px); }
+
+    .radio-option:hover {
+      border-color: var(--primary);
+      background: #fff8f0;
+      transform: translateY(-1px);
+    }
+
     .radio-option.selected {
       border-color: var(--primary-dark);
       background: linear-gradient(135deg, #fff4e8, #ffe8cc);
       color: var(--text-dark);
     }
+
     .radio-circle {
-      width: 22px; height: 22px; min-width: 22px;
-      border: 2px solid #ffd9b3; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      border: 2px solid #ffd9b3;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       transition: all 0.2s;
     }
+
     .radio-option.selected .radio-circle {
       border-color: var(--primary-dark);
       background: var(--primary-dark);
     }
+
     .radio-circle::after {
-      content: ''; width: 8px; height: 8px;
-      border-radius: 50%; background: white;
-      opacity: 0; transition: opacity 0.2s;
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: white;
+      opacity: 0;
+      transition: opacity 0.2s;
     }
-    .radio-option.selected .radio-circle::after { opacity: 1; }
+
+    .radio-option.selected .radio-circle::after {
+      opacity: 1;
+    }
 
     /* ── BUTTONS ──────────────────────────── */
-    .btn-row { display: flex; gap: 12px; margin-top: 20px; }
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
     .btn {
-      flex: 1; min-height: 52px;
-      border-radius: 16px; border: none; cursor: pointer;
-      font-size: 1.02rem; font-weight: 800;
+      flex: 1;
+      min-height: 52px;
+      border-radius: 16px;
+      border: none;
+      cursor: pointer;
+      font-size: 1.02rem;
+      font-weight: 800;
       font-family: 'Noto Sans KR', sans-serif;
       transition: all 0.2s;
     }
+
     .btn-primary {
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: white; box-shadow: 0 4px 16px rgba(255,127,80,0.3);
+      color: white;
+      box-shadow: 0 4px 16px rgba(255, 127, 80, 0.3);
     }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(255,127,80,0.4); }
-    .btn-primary:active { transform: translateY(0); }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(255, 127, 80, 0.4);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
     .btn-secondary {
-      background: white; color: var(--text-mid);
+      background: white;
+      color: var(--text-mid);
       border: 2px solid var(--border);
     }
-    .btn-secondary:hover { border-color: var(--primary); color: var(--primary-dark); background: #fff8f0; }
-    .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+
+    .btn-secondary:hover {
+      border-color: var(--primary);
+      color: var(--primary-dark);
+      background: #fff8f0;
+    }
+
+    .btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
     .btn-outline {
-      background: white; color: var(--text-mid);
+      background: white;
+      color: var(--text-mid);
       border: 2px solid var(--border);
-      width: 100%; min-height: 52px;
-      border-radius: 16px; cursor: pointer;
-      font-size: 1rem; font-weight: 800;
+      width: 100%;
+      min-height: 52px;
+      border-radius: 16px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 800;
       font-family: 'Noto Sans KR', sans-serif;
-      transition: all 0.2s; margin-top: 12px;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all 0.2s;
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
-    .btn-outline:hover { border-color: var(--primary); color: var(--primary-dark); background: #fff8f0; }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary-dark);
+      background: #fff8f0;
+    }
 
     /* ── CHART ────────────────────────────── */
-    .chart-wrap { margin: 8px 0; }
-    .chart-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-    .chart-label { font-size: 0.93rem; font-weight: 700; color: var(--text-mid); width: 60px; flex-shrink: 0; }
-    .chart-bar-bg { flex: 1; height: 20px; background: #fddcbf; border-radius: 99px; overflow: hidden; }
+    .chart-wrap {
+      margin: 8px 0;
+    }
+
+    .chart-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .chart-label {
+      font-size: 0.93rem;
+      font-weight: 700;
+      color: var(--text-mid);
+      width: 60px;
+      flex-shrink: 0;
+    }
+
+    .chart-bar-bg {
+      flex: 1;
+      height: 20px;
+      background: #fddcbf;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
     .chart-bar-fill {
       height: 100%;
       background: linear-gradient(90deg, var(--primary), var(--primary-dark));
       border-radius: 99px;
-      transition: width 1s cubic-bezier(.4,0,.2,1);
+      transition: width 1s cubic-bezier(.4, 0, .2, 1);
     }
-    .chart-value { font-size: 0.93rem; font-weight: 800; color: var(--text-dark); width: 28px; text-align: right; }
+
+    .chart-value {
+      font-size: 0.93rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      width: 28px;
+      text-align: right;
+    }
 
     /* ── SHARE ────────────────────────────── */
     .share-box {
-      background: white; border: 1px solid var(--border);
-      border-radius: 14px; padding: 14px 16px;
-      display: flex; align-items: center; gap: 10px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
       margin-top: 10px;
     }
+
     .share-url {
-      flex: 1; font-size: 0.88rem; color: var(--text-mid);
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      flex: 1;
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
+
     .copy-btn {
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: white; border: none; border-radius: 10px;
-      padding: 8px 14px; font-size: 0.85rem; font-weight: 700;
-      cursor: pointer; white-space: nowrap; font-family: 'Noto Sans KR', sans-serif;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      font-family: 'Noto Sans KR', sans-serif;
       transition: all 0.2s;
     }
-    .copy-btn:hover { transform: scale(1.04); }
+
+    .copy-btn:hover {
+      transform: scale(1.04);
+    }
 
     /* ── TOAST ────────────────────────────── */
     .toast {
-      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px);
-      background: #352824; color: white; padding: 12px 24px;
-      border-radius: 99px; font-size: 0.9rem; font-weight: 700;
-      opacity: 0; pointer-events: none;
-      transition: all 0.3s; z-index: 9999; white-space: nowrap;
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #352824;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 99px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s;
+      z-index: 9999;
+      white-space: nowrap;
     }
-    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
 
     /* ── TYPE BADGES (home) ───────────────── */
-    .type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
-    .type-badge {
-      background: white; border: 1px solid var(--border);
-      border-radius: 16px; padding: 14px;
-      text-align: center; cursor: default;
+    .type-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 16px;
     }
-    .type-badge-emoji { font-size: 1.6rem; margin-bottom: 4px; }
-    .type-badge-name { font-size: 0.88rem; font-weight: 800; color: var(--text-dark); }
-    .type-badge-desc { font-size: 0.78rem; color: var(--text-mid); margin-top: 4px; line-height: 1.4; }
+
+    .type-badge {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      text-align: center;
+      cursor: default;
+    }
+
+    .type-badge-emoji {
+      font-size: 1.6rem;
+      margin-bottom: 4px;
+    }
+
+    .type-badge-name {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .type-badge-desc {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
 
     /* ── ANIMATIONS ───────────────────────── */
-    .fade-in { animation: fadeIn 0.45s ease both; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in {
+      animation: fadeIn 0.45s ease both;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
     /* ── RESPONSIVE ───────────────────────── */
     @media (max-width: 600px) {
-      .container { padding: 18px 16px 80px; }
-      .hero-title { font-size: 1.85rem; }
-      .hero-brand { font-size: 0.85rem; letter-spacing: 4px; }
-      .hero-subtitle { font-size: 1.02rem; }
-      .card, .result-card { padding: 18px; border-radius: 20px; }
-      .question-label { font-size: 1.1rem; }
-      .question-text { font-size: 1.02rem; }
-      .result-title { font-size: 1.45rem; }
-      .result-summary { font-size: 0.98rem; }
-      .type-grid { grid-template-columns: 1fr 1fr; }
+      .container {
+        padding: 18px 16px 80px;
+      }
+
+      .hero-title {
+        font-size: 1.85rem;
+      }
+
+      .hero-brand {
+        font-size: 0.85rem;
+        letter-spacing: 4px;
+      }
+
+      .hero-subtitle {
+        font-size: 1.02rem;
+      }
+
+      .card,
+      .result-card {
+        padding: 18px;
+        border-radius: 20px;
+      }
+
+      .question-label {
+        font-size: 1.1rem;
+      }
+
+      .question-text {
+        font-size: 1.02rem;
+      }
+
+      .result-title {
+        font-size: 1.45rem;
+      }
+
+      .result-summary {
+        font-size: 0.98rem;
+      }
+
+      .type-grid {
+        grid-template-columns: 1fr 1fr;
+      }
     }
   </style>
 </head>
+
 <body>
-<div class="container" id="app"></div>
-<div class="toast" id="toast"></div>
+  <div class="container" id="app"></div>
+  <div class="toast" id="toast"></div>
 
-<script>
-// ─── DATA ────────────────────────────────────────────────────────────────────
-const SCALE = {1:"전혀 아니다", 2:"아니다", 3:"보통이다", 4:"그렇다", 5:"매우 그렇다"};
+  <script>
+    // ─── DATA ────────────────────────────────────────────────────────────────────
+    const SCALE = { 1: "전혀 아니다", 2: "아니다", 3: "보통이다", 4: "그렇다", 5: "매우 그렇다" };
 
-const QUESTIONS = [
-  // ── 공감형 A (5문항) ──
-  {id:1,  icon:"💗", text:"아이가 속상해할 때 먼저 감정을 들어주는 편이다.", type:"A"},
-  {id:5,  icon:"🗣️", text:"아이와 대화하며 문제를 해결하려고 한다.", type:"A"},
-  {id:9,  icon:"👂", text:"아이의 마음을 이해하려고 질문을 많이 하는 편이다.", type:"A"},
-  {id:11, icon:"🫂", text:"아이가 울거나 화낼 때, 훈계보다 공감을 먼저 한다.", type:"A"},
-  {id:15, icon:"😊", text:"아이의 감정 표현을 억제하지 않고 충분히 들어준다.", type:"A"},
-  // ── 훈육형 B (5문항) ──
-  {id:2,  icon:"📏", text:"가정에서 지켜야 할 규칙을 명확하게 알려주는 편이다.", type:"B"},
-  {id:6,  icon:"🕒", text:"생활 습관과 약속을 꾸준히 강조한다.", type:"B"},
-  {id:12, icon:"📅", text:"취침 시간, 식사 시간 등 일과를 규칙적으로 유지한다.", type:"B"},
-  {id:16, icon:"🏁", text:"아이가 약속을 어겼을 때 반드시 결과를 경험하게 한다.", type:"B"},
-  {id:19, icon:"🎓", text:"집에서 지켜야 할 기본 예절을 반복적으로 가르친다.", type:"B"},
-  // ── 자율형 C (5문항) ──
-  {id:3,  icon:"🌱", text:"아이가 스스로 선택하도록 기다려주는 편이다.", type:"C"},
-  {id:7,  icon:"🧩", text:"아이가 직접 해보며 배우는 것을 중요하게 생각한다.", type:"C"},
-  {id:10, icon:"🚀", text:"아이의 자율성과 책임감을 함께 키우려 한다.", type:"C"},
-  {id:13, icon:"⏳", text:"아이가 실수해도 스스로 해결하도록 기다린다.", type:"C"},
-  {id:17, icon:"🗓️", text:"아이에게 하루 중 스스로 결정할 시간을 충분히 준다.", type:"C"},
-  // ── 균형형 D (5문항) ──
-  {id:4,  icon:"⚖️", text:"상황에 따라 공감과 규칙을 함께 고려한다.", type:"D"},
-  {id:8,  icon:"🤝", text:"아이의 감정은 받아주되 행동 기준도 함께 설명한다.", type:"D"},
-  {id:14, icon:"🎯", text:"아이를 훈육할 때 감정과 행동 모두 고려한다.", type:"D"},
-  {id:18, icon:"🌀", text:"아이가 원하는 것과 해야 할 것 사이에서 균형을 찾으려 한다.", type:"D"},
-  {id:20, icon:"💡", text:"아이의 감정을 인정하면서도 행동의 결과를 알려준다.", type:"D"},
-];
+    const QUESTIONS = [
+      // ── 공감형 A (5문항) ──
+      { id: 1, icon: "💗", text: "아이가 속상해할 때 먼저 감정을 들어주는 편이다.", type: "A" },
+      { id: 5, icon: "🗣️", text: "아이와 대화하며 문제를 해결하려고 한다.", type: "A" },
+      { id: 9, icon: "👂", text: "아이의 마음을 이해하려고 질문을 많이 하는 편이다.", type: "A" },
+      { id: 11, icon: "🫂", text: "아이가 울거나 화낼 때, 훈계보다 공감을 먼저 한다.", type: "A" },
+      { id: 15, icon: "😊", text: "아이의 감정 표현을 억제하지 않고 충분히 들어준다.", type: "A" },
+      // ── 훈육형 B (5문항) ──
+      { id: 2, icon: "📏", text: "가정에서 지켜야 할 규칙을 명확하게 알려주는 편이다.", type: "B" },
+      { id: 6, icon: "🕒", text: "생활 습관과 약속을 꾸준히 강조한다.", type: "B" },
+      { id: 12, icon: "📅", text: "취침 시간, 식사 시간 등 일과를 규칙적으로 유지한다.", type: "B" },
+      { id: 16, icon: "🏁", text: "아이가 약속을 어겼을 때 반드시 결과를 경험하게 한다.", type: "B" },
+      { id: 19, icon: "🎓", text: "집에서 지켜야 할 기본 예절을 반복적으로 가르친다.", type: "B" },
+      // ── 자율형 C (5문항) ──
+      { id: 3, icon: "🌱", text: "아이가 스스로 선택하도록 기다려주는 편이다.", type: "C" },
+      { id: 7, icon: "🧩", text: "아이가 직접 해보며 배우는 것을 중요하게 생각한다.", type: "C" },
+      { id: 10, icon: "🚀", text: "아이의 자율성과 책임감을 함께 키우려 한다.", type: "C" },
+      { id: 13, icon: "⏳", text: "아이가 실수해도 스스로 해결하도록 기다린다.", type: "C" },
+      { id: 17, icon: "🗓️", text: "아이에게 하루 중 스스로 결정할 시간을 충분히 준다.", type: "C" },
+      // ── 균형형 D (5문항) ──
+      { id: 4, icon: "⚖️", text: "상황에 따라 공감과 규칙을 함께 고려한다.", type: "D" },
+      { id: 8, icon: "🤝", text: "아이의 감정은 받아주되 행동 기준도 함께 설명한다.", type: "D" },
+      { id: 14, icon: "🎯", text: "아이를 훈육할 때 감정과 행동 모두 고려한다.", type: "D" },
+      { id: 18, icon: "🌀", text: "아이가 원하는 것과 해야 할 것 사이에서 균형을 찾으려 한다.", type: "D" },
+      { id: 20, icon: "💡", text: "아이의 감정을 인정하면서도 행동의 결과를 알려준다.", type: "D" },
+    ];
 
-const RESULTS = {
-  A: {
-    name:"공감형 부모", emoji:"💗",
-    summary:"아이의 마음을 먼저 살피고 정서적 연결을 중요하게 여기는 부모입니다.",
-    description:"아이의 감정을 잘 읽고 안정감을 주는 유형입니다. 아이는 부모에게 자신의 마음을 표현해도 안전하다고 느끼기 쉽습니다.",
-    strength:"아이의 감정을 잘 이해하고 정서적 안정감을 줍니다.",
-    weakness:"규칙이나 행동 기준이 약해질 수 있습니다.",
-    recommendation:"감정을 먼저 공감한 뒤, 지켜야 할 기준을 짧고 분명하게 알려주세요.",
-    talk:""네 마음은 이해해. 하지만 이 행동은 이렇게 바꿔보자."",
-    color:"#ff9f9f",
-  },
-  B: {
-    name:"훈육형 부모", emoji:"📏",
-    summary:"규칙, 약속, 생활 습관을 중요하게 생각하는 부모입니다.",
-    description:"아이에게 안정적인 기준과 생활 리듬을 만들어 주는 유형입니다. 예측 가능한 환경을 제공하는 데 강점이 있습니다.",
-    strength:"아이에게 안정적인 기준과 습관을 만들어 줍니다.",
-    weakness:"아이의 감정이나 속마음을 놓칠 수 있습니다.",
-    recommendation:"규칙을 말하기 전, 아이의 감정을 먼저 한 문장으로 인정해 주세요.",
-    talk:""속상했구나. 그래도 우리 약속은 지켜야 해."",
-    color:"#ffa07a",
-  },
-  C: {
-    name:"자율형 부모", emoji:"🌱",
-    summary:"아이의 선택과 독립성을 존중하는 부모입니다.",
-    description:"아이 스스로 생각하고 선택하도록 기다려주는 유형입니다. 자기주도성과 책임감을 키우는 데 강점이 있습니다.",
-    strength:"아이의 자기주도성과 독립성을 키워줍니다.",
-    weakness:"기준이 부족하면 아이가 혼란스러울 수 있습니다.",
-    recommendation:"선택권을 주되 가능한 범위와 책임을 함께 알려주세요.",
-    talk:""네가 선택해도 좋아. 대신 선택한 일은 끝까지 해보자."",
-    color:"#77d88c",
-  },
-  D: {
-    name:"균형형 부모", emoji:"⚖️",
-    summary:"공감과 규칙을 함께 고려하는 유연한 부모입니다.",
-    description:"아이의 감정을 이해하면서도 필요한 기준을 제시하는 유형입니다. 상황에 따라 유연하게 대응할 수 있습니다.",
-    strength:"감정과 행동 기준을 균형 있게 다룹니다.",
-    weakness:"상황마다 기준이 달라 보일 수 있습니다.",
-    recommendation:"가정의 핵심 원칙 2~3가지를 정하고 일관되게 적용해 주세요.",
-    talk:""네 마음도 중요하고, 우리 약속도 중요해. 함께 방법을 찾아보자."",
-    color:"#7ab8f5",
-  },
-};
+    const RESULTS = {
+      A: {
+        name: "공감형 부모", emoji: "💗",
+        summary: "아이의 마음을 먼저 살피고 정서적 연결을 중요하게 여기는 부모입니다.",
+        description: "아이의 감정을 잘 읽고 안정감을 주는 유형입니다. 아이는 부모에게 자신의 마음을 표현해도 안전하다고 느끼기 쉽습니다.",
+        strength: "아이의 감정을 잘 이해하고 정서적 안정감을 줍니다.",
+        weakness: "규칙이나 행동 기준이 약해질 수 있습니다.",
+        recommendation: "감정을 먼저 공감한 뒤, 지켜야 할 기준을 짧고 분명하게 알려주세요.",
+        talk: ""네 마음은 이해해.하지만 이 행동은 이렇게 바꿔보자."",
+        color: "#ff9f9f",
+      },
+      B: {
+        name: "훈육형 부모", emoji: "📏",
+        summary: "규칙, 약속, 생활 습관을 중요하게 생각하는 부모입니다.",
+        description: "아이에게 안정적인 기준과 생활 리듬을 만들어 주는 유형입니다. 예측 가능한 환경을 제공하는 데 강점이 있습니다.",
+        strength: "아이에게 안정적인 기준과 습관을 만들어 줍니다.",
+        weakness: "아이의 감정이나 속마음을 놓칠 수 있습니다.",
+        recommendation: "규칙을 말하기 전, 아이의 감정을 먼저 한 문장으로 인정해 주세요.",
+        talk: ""속상했구나.그래도 우리 약속은 지켜야 해."",
+        color: "#ffa07a",
+      },
+      C: {
+        name: "자율형 부모", emoji: "🌱",
+        summary: "아이의 선택과 독립성을 존중하는 부모입니다.",
+        description: "아이 스스로 생각하고 선택하도록 기다려주는 유형입니다. 자기주도성과 책임감을 키우는 데 강점이 있습니다.",
+        strength: "아이의 자기주도성과 독립성을 키워줍니다.",
+        weakness: "기준이 부족하면 아이가 혼란스러울 수 있습니다.",
+        recommendation: "선택권을 주되 가능한 범위와 책임을 함께 알려주세요.",
+        talk: ""네가 선택해도 좋아.대신 선택한 일은 끝까지 해보자."",
+        color: "#77d88c",
+      },
+      D: {
+        name: "균형형 부모", emoji: "⚖️",
+        summary: "공감과 규칙을 함께 고려하는 유연한 부모입니다.",
+        description: "아이의 감정을 이해하면서도 필요한 기준을 제시하는 유형입니다. 상황에 따라 유연하게 대응할 수 있습니다.",
+        strength: "감정과 행동 기준을 균형 있게 다룹니다.",
+        weakness: "상황마다 기준이 달라 보일 수 있습니다.",
+        recommendation: "가정의 핵심 원칙 2~3가지를 정하고 일관되게 적용해 주세요.",
+        talk: ""네 마음도 중요하고, 우리 약속도 중요해.함께 방법을 찾아보자."",
+        color: "#7ab8f5",
+      },
+    };
 
-// ─── STATE ───────────────────────────────────────────────────────────────────
-const state = {
-  page: "home",          // home | test | result
-  responses: {},         // {questionId: score}
-  currentQ: 0,
-};
+    // ─── STATE ───────────────────────────────────────────────────────────────────
+    const state = {
+      page: "home",          // home | test | result
+      responses: {},         // {questionId: score}
+      currentQ: 0,
+    };
 
-// ─── RENDER ──────────────────────────────────────────────────────────────────
-function render() {
-  const app = document.getElementById("app");
-  if (state.page === "home")   app.innerHTML = renderHome();
-  if (state.page === "test")   app.innerHTML = renderTest();
-  if (state.page === "result") app.innerHTML = renderResult();
-  attachEvents();
-}
+    // ─── RENDER ──────────────────────────────────────────────────────────────────
+    function render() {
+      const app = document.getElementById("app");
+      if (state.page === "home") app.innerHTML = renderHome();
+      if (state.page === "test") app.innerHTML = renderTest();
+      if (state.page === "result") app.innerHTML = renderResult();
+      attachEvents();
+    }
 
-// ─── HOME PAGE ───────────────────────────────────────────────────────────────
-function renderHome() {
-  return `
+    // ─── HOME PAGE ───────────────────────────────────────────────────────────────
+    function renderHome() {
+      return `
   <div class="fade-in">
     <div class="hero">
       <div class="hero-title">👨‍👩‍👧 MVP 부모유형 진단</div>
@@ -369,11 +644,11 @@ function renderHome() {
 
     <div class="type-grid">
       ${[
-        {k:"A", desc:"정서적 연결을 우선시해요"},
-        {k:"B", desc:"규칙과 습관을 중요히 여겨요"},
-        {k:"C", desc:"아이의 선택을 존중해요"},
-        {k:"D", desc:"공감과 규칙을 조화롭게"},
-      ].map(t=>`
+          { k: "A", desc: "정서적 연결을 우선시해요" },
+          { k: "B", desc: "규칙과 습관을 중요히 여겨요" },
+          { k: "C", desc: "아이의 선택을 존중해요" },
+          { k: "D", desc: "공감과 규칙을 조화롭게" },
+        ].map(t => `
         <div class="type-badge">
           <div class="type-badge-emoji">${RESULTS[t.k].emoji}</div>
           <div class="type-badge-name">${RESULTS[t.k].name}</div>
@@ -386,17 +661,17 @@ function renderHome() {
       <button class="btn btn-primary" id="btn-start">🚀 시작하기</button>
     </div>
   </div>`;
-}
+    }
 
-// ─── TEST PAGE ────────────────────────────────────────────────────────────────
-function renderTest() {
-  const total = QUESTIONS.length;
-  const idx   = state.currentQ;
-  const q     = QUESTIONS[idx];
-  const pct   = Math.round(((idx + 1) / total) * 100);
-  const cur   = state.responses[q.id] || 3;
+    // ─── TEST PAGE ────────────────────────────────────────────────────────────────
+    function renderTest() {
+      const total = QUESTIONS.length;
+      const idx = state.currentQ;
+      const q = QUESTIONS[idx];
+      const pct = Math.round(((idx + 1) / total) * 100);
+      const cur = state.responses[q.id] || 3;
 
-  return `
+      return `
   <div class="fade-in">
     <div class="progress-wrap">
       <div class="progress-label">진행률 ${idx + 1} / ${total}</div>
@@ -424,35 +699,35 @@ function renderTest() {
       </button>
     </div>
   </div>`;
-}
+    }
 
-// ─── RESULT PAGE ──────────────────────────────────────────────────────────────
-function calcScores() {
-  const scores = {A:0, B:0, C:0, D:0};
-  QUESTIONS.forEach(q => { scores[q.type] += (state.responses[q.id] || 3); });
-  return scores;
-}
+    // ─── RESULT PAGE ──────────────────────────────────────────────────────────────
+    function calcScores() {
+      const scores = { A: 0, B: 0, C: 0, D: 0 };
+      QUESTIONS.forEach(q => { scores[q.type] += (state.responses[q.id] || 3); });
+      return scores;
+    }
 
-function analyzeType(scores) {
-  const max = Math.max(...Object.values(scores));
-  const tops = Object.keys(scores).filter(k => scores[k] === max);
-  return tops.length > 1 ? "D" : tops[0];
-}
+    function analyzeType(scores) {
+      const max = Math.max(...Object.values(scores));
+      const tops = Object.keys(scores).filter(k => scores[k] === max);
+      return tops.length > 1 ? "D" : tops[0];
+    }
 
-function renderResult() {
-  const scores = calcScores();
-  const type   = analyzeType(scores);
-  const r      = RESULTS[type];
-  const maxScore = QUESTIONS.length * 5;
+    function renderResult() {
+      const scores = calcScores();
+      const type = analyzeType(scores);
+      const r = RESULTS[type];
+      const maxScore = QUESTIONS.length * 5;
 
-  // second type
-  const sorted = Object.entries(scores).sort((a,b)=>b[1]-a[1]);
-  const secondType = sorted[1][0] !== type ? sorted[1][0] : sorted[0][0];
-  const r2 = RESULTS[secondType];
+      // second type
+      const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+      const secondType = sorted[1][0] !== type ? sorted[1][0] : sorted[0][0];
+      const r2 = RESULTS[secondType];
 
-  const appUrl = window.location.href.split("?")[0];
+      const appUrl = window.location.href.split("?")[0];
 
-  return `
+      return `
   <div class="fade-in">
     <div class="result-card">
       <span class="result-emoji">${r.emoji}</span>
@@ -465,10 +740,10 @@ function renderResult() {
       <h3 style="font-size:1rem;font-weight:900;color:var(--text-dark);margin-bottom:16px">📊 유형별 점수</h3>
       <div class="chart-wrap">
         ${[
-          {k:"A", label:"공감형"},
-          {k:"B", label:"훈육형"},
-          {k:"C", label:"자율형"},
-          {k:"D", label:"균형형"},
+          { k: "A", label: "공감형" },
+          { k: "B", label: "훈육형" },
+          { k: "C", label: "자율형" },
+          { k: "D", label: "균형형" },
         ].map(item => {
           const pct = Math.round((scores[item.k] / maxScore) * 100);
           return `
@@ -522,129 +797,130 @@ function renderResult() {
       <button class="btn btn-primary" id="btn-retry">다시 검사하기</button>
     </div>
   </div>`;
-}
-
-// ─── EVENTS ───────────────────────────────────────────────────────────────────
-function attachEvents() {
-  // HOME
-  const btnStart = document.getElementById("btn-start");
-  if (btnStart) btnStart.addEventListener("click", () => {
-    state.page = "test"; state.currentQ = 0; render();
-  });
-
-  // TEST – radio
-  document.querySelectorAll(".radio-option").forEach(el => {
-    el.addEventListener("click", () => {
-      const q = QUESTIONS[state.currentQ];
-      state.responses[q.id] = parseInt(el.dataset.value);
-      document.querySelectorAll(".radio-option").forEach(o => o.classList.remove("selected"));
-      el.classList.add("selected");
-    });
-  });
-
-  const btnPrev = document.getElementById("btn-prev");
-  if (btnPrev) btnPrev.addEventListener("click", () => {
-    if (state.currentQ > 0) { state.currentQ--; render(); }
-  });
-
-  const btnNext = document.getElementById("btn-next");
-  if (btnNext) btnNext.addEventListener("click", () => {
-    const q = QUESTIONS[state.currentQ];
-    if (!state.responses[q.id]) state.responses[q.id] = 3;
-    if (state.currentQ < QUESTIONS.length - 1) {
-      state.currentQ++; render();
-    } else {
-      state.page = "result"; render();
     }
-  });
 
-  // RESULT
-  const btnHome  = document.getElementById("btn-home");
-  const btnRetry = document.getElementById("btn-retry");
-  if (btnHome)  btnHome.addEventListener("click",  () => { resetState(); render(); });
-  if (btnRetry) btnRetry.addEventListener("click", () => { resetState(); state.page="test"; render(); });
+    // ─── EVENTS ───────────────────────────────────────────────────────────────────
+    function attachEvents() {
+      // HOME
+      const btnStart = document.getElementById("btn-start");
+      if (btnStart) btnStart.addEventListener("click", () => {
+        state.page = "test"; state.currentQ = 0; render();
+      });
 
-  const btnCopy = document.getElementById("btn-copy");
-  if (btnCopy) btnCopy.addEventListener("click", () => {
-    const url = window.location.href.split("?")[0];
-    navigator.clipboard.writeText(url).then(() => showToast("📋 링크가 복사되었습니다!"));
-  });
+      // TEST – radio
+      document.querySelectorAll(".radio-option").forEach(el => {
+        el.addEventListener("click", () => {
+          const q = QUESTIONS[state.currentQ];
+          state.responses[q.id] = parseInt(el.dataset.value);
+          document.querySelectorAll(".radio-option").forEach(o => o.classList.remove("selected"));
+          el.classList.add("selected");
+        });
+      });
 
-  const btnPdf = document.getElementById("btn-pdf");
-  if (btnPdf) btnPdf.addEventListener("click", generatePDF);
+      const btnPrev = document.getElementById("btn-prev");
+      if (btnPrev) btnPrev.addEventListener("click", () => {
+        if (state.currentQ > 0) { state.currentQ--; render(); }
+      });
 
-  const btnKakao = document.getElementById("btn-kakao");
-  if (btnKakao) btnKakao.addEventListener("click", () => {
-    const url = window.location.href.split("?")[0];
-    // KakaoTalk share via URL scheme (opens kakao if installed, otherwise web)
-    const text = encodeURIComponent("MVP 부모유형 진단 — 나의 육아 성향을 알아보세요!");
-    window.open(`https://story.kakao.com/share?url=${encodeURIComponent(url)}&text=${text}`, "_blank");
-  });
+      const btnNext = document.getElementById("btn-next");
+      if (btnNext) btnNext.addEventListener("click", () => {
+        const q = QUESTIONS[state.currentQ];
+        if (!state.responses[q.id]) state.responses[q.id] = 3;
+        if (state.currentQ < QUESTIONS.length - 1) {
+          state.currentQ++; render();
+        } else {
+          state.page = "result"; render();
+        }
+      });
 
-  const btnTwitter = document.getElementById("btn-twitter");
-  if (btnTwitter) btnTwitter.addEventListener("click", () => {
-    const scores = calcScores();
-    const type = analyzeType(scores);
-    const r = RESULTS[type];
-    const text = encodeURIComponent(`나의 부모유형은 "${r.name}"! ${r.emoji}\n${r.summary}\n\n#MVP부모유형진단`);
-    const url = encodeURIComponent(window.location.href.split("?")[0]);
-    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, "_blank");
-  });
-}
+      // RESULT
+      const btnHome = document.getElementById("btn-home");
+      const btnRetry = document.getElementById("btn-retry");
+      if (btnHome) btnHome.addEventListener("click", () => { resetState(); render(); });
+      if (btnRetry) btnRetry.addEventListener("click", () => { resetState(); state.page = "test"; render(); });
 
-function resetState() {
-  state.page = "home"; state.responses = {}; state.currentQ = 0;
-}
+      const btnCopy = document.getElementById("btn-copy");
+      if (btnCopy) btnCopy.addEventListener("click", () => {
+        const url = window.location.href.split("?")[0];
+        navigator.clipboard.writeText(url).then(() => showToast("📋 링크가 복사되었습니다!"));
+      });
 
-// ─── TOAST ───────────────────────────────────────────────────────────────────
-function showToast(msg) {
-  const t = document.getElementById("toast");
-  t.textContent = msg; t.classList.add("show");
-  setTimeout(() => t.classList.remove("show"), 2500);
-}
+      const btnPdf = document.getElementById("btn-pdf");
+      if (btnPdf) btnPdf.addEventListener("click", generatePDF);
 
-// ─── PDF ─────────────────────────────────────────────────────────────────────
-function generatePDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-  const scores = calcScores();
-  const type = analyzeType(scores);
-  const r = RESULTS[type];
+      const btnKakao = document.getElementById("btn-kakao");
+      if (btnKakao) btnKakao.addEventListener("click", () => {
+        const url = window.location.href.split("?")[0];
+        // KakaoTalk share via URL scheme (opens kakao if installed, otherwise web)
+        const text = encodeURIComponent("MVP 부모유형 진단 — 나의 육아 성향을 알아보세요!");
+        window.open(`https://story.kakao.com/share?url=${encodeURIComponent(url)}&text=${text}`, "_blank");
+      });
 
-  doc.setFontSize(20);
-  doc.setFont("helvetica", "bold");
-  doc.text("MVP Parenting Type Result", 20, 30);
+      const btnTwitter = document.getElementById("btn-twitter");
+      if (btnTwitter) btnTwitter.addEventListener("click", () => {
+        const scores = calcScores();
+        const type = analyzeType(scores);
+        const r = RESULTS[type];
+        const text = encodeURIComponent(`나의 부모유형은 "${r.name}"! ${r.emoji}\n${r.summary}\n\n#MVP부모유형진단`);
+        const url = encodeURIComponent(window.location.href.split("?")[0]);
+        window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, "_blank");
+      });
+    }
 
-  doc.setFontSize(15);
-  doc.text(`Result: ${r.name}`, 20, 50);
+    function resetState() {
+      state.page = "home"; state.responses = {}; state.currentQ = 0;
+    }
 
-  doc.setFontSize(10);
-  doc.setFont("helvetica", "normal");
-  const lines = [
-    r.summary, "",
-    "Strength: " + r.strength, "",
-    "Needs Improvement: " + r.weakness, "",
-    "Recommendation: " + r.recommendation, "",
-    "Suggested phrase: " + r.talk, "",
-    `Empathy (A): ${scores.A}`,
-    `Discipline (B): ${scores.B}`,
-    `Autonomy (C): ${scores.C}`,
-    `Balance (D): ${scores.D}`,
-  ];
+    // ─── TOAST ───────────────────────────────────────────────────────────────────
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg; t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 2500);
+    }
 
-  let y = 70;
-  lines.forEach(line => {
-    const wrapped = doc.splitTextToSize(line, 170);
-    doc.text(wrapped, 20, y);
-    y += wrapped.length * 7 + 3;
-  });
+    // ─── PDF ─────────────────────────────────────────────────────────────────────
+    function generatePDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      const scores = calcScores();
+      const type = analyzeType(scores);
+      const r = RESULTS[type];
 
-  doc.save("parenting_type_result.pdf");
-  showToast("📄 PDF가 저장되었습니다!");
-}
+      doc.setFontSize(20);
+      doc.setFont("helvetica", "bold");
+      doc.text("MVP Parenting Type Result", 20, 30);
 
-// ─── INIT ─────────────────────────────────────────────────────────────────────
-render();
-</script>
+      doc.setFontSize(15);
+      doc.text(`Result: ${r.name}`, 20, 50);
+
+      doc.setFontSize(10);
+      doc.setFont("helvetica", "normal");
+      const lines = [
+        r.summary, "",
+        "Strength: " + r.strength, "",
+        "Needs Improvement: " + r.weakness, "",
+        "Recommendation: " + r.recommendation, "",
+        "Suggested phrase: " + r.talk, "",
+        `Empathy (A): ${scores.A}`,
+        `Discipline (B): ${scores.B}`,
+        `Autonomy (C): ${scores.C}`,
+        `Balance (D): ${scores.D}`,
+      ];
+
+      let y = 70;
+      lines.forEach(line => {
+        const wrapped = doc.splitTextToSize(line, 170);
+        doc.text(wrapped, 20, y);
+        y += wrapped.length * 7 + 3;
+      });
+
+      doc.save("parenting_type_result.pdf");
+      showToast("📄 PDF가 저장되었습니다!");
+    }
+
+    // ─── INIT ─────────────────────────────────────────────────────────────────────
+    render();
+  </script>
 </body>
+
 </html>
