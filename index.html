@@ -12,6 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;800;900&display=swap"
     rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     *,
     *::before,
@@ -896,43 +897,48 @@
     }
 
     // ─── PDF ─────────────────────────────────────────────────────────────────────
-    function generatePDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      const scores = calcScores();
-      const type = analyzeType(scores);
-      const r = RESULTS[type];
+    async function generatePDF() {
+      const btnPdf = document.getElementById("btn-pdf");
+      if (btnPdf) { btnPdf.disabled = true; btnPdf.textContent = "⏳ PDF 생성 중..."; }
 
-      doc.setFontSize(20);
-      doc.setFont("helvetica", "bold");
-      doc.text("MVP Parenting Type Result", 20, 30);
+      try {
+        const appEl = document.getElementById("app");
+        const canvas = await html2canvas(appEl, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: "#fff8ef",
+          scrollX: 0,
+          scrollY: -window.scrollY,
+        });
 
-      doc.setFontSize(15);
-      doc.text(`Result: ${r.name}`, 20, 50);
+        const imgData = canvas.toDataURL("image/png");
+        const { jsPDF } = window.jspdf;
 
-      doc.setFontSize(10);
-      doc.setFont("helvetica", "normal");
-      const lines = [
-        r.summary, "",
-        "Strength: " + r.strength, "",
-        "Needs Improvement: " + r.weakness, "",
-        "Recommendation: " + r.recommendation, "",
-        "Suggested phrase: " + r.talk, "",
-        `Empathy (A): ${scores.A}`,
-        `Discipline (B): ${scores.B}`,
-        `Autonomy (C): ${scores.C}`,
-        `Balance (D): ${scores.D}`,
-      ];
+        const pdfW = 210;
+        const pdfH = (canvas.height / canvas.width) * pdfW;
+        const pageH = 297;
 
-      let y = 70;
-      lines.forEach(line => {
-        const wrapped = doc.splitTextToSize(line, 170);
-        doc.text(wrapped, 20, y);
-        y += wrapped.length * 7 + 3;
-      });
+        const doc = new jsPDF("p", "mm", "a4");
 
-      doc.save("parenting_type_result.pdf");
-      showToast("📄 PDF가 저장되었습니다!");
+        if (pdfH <= pageH) {
+          doc.addImage(imgData, "PNG", 0, 0, pdfW, pdfH);
+        } else {
+          let drawnH = 0;
+          while (drawnH < pdfH) {
+            doc.addImage(imgData, "PNG", 0, -drawnH, pdfW, pdfH);
+            drawnH += pageH;
+            if (drawnH < pdfH) doc.addPage();
+          }
+        }
+
+        doc.save("부모유형진단_결과.pdf");
+        showToast("📄 PDF가 저장되었습니다!");
+      } catch (e) {
+        console.error(e);
+        showToast("❌ PDF 생성에 실패했습니다. 다시 시도해주세요.");
+      } finally {
+        if (btnPdf) { btnPdf.disabled = false; btnPdf.textContent = "📄 결과 PDF 저장"; }
+      }
     }
 
     // ─── INIT ─────────────────────────────────────────────────────────────────────
