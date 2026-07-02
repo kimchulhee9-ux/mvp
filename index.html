@@ -785,7 +785,7 @@
         <button class="copy-btn" id="btn-copy">🔗 링크 복사</button>
       </div>
       <div style="display:flex;gap:10px;margin-top:10px">
-        <button class="btn-outline" id="btn-kakao" style="flex:1">💛 카카오톡 공유</button>
+        <button class="btn-outline" id="btn-kakao" style="flex:1;background:#FEE500;border-color:#FEE500;color:#3C1E1E;font-weight:900">💛 카카오톡 공유</button>
         <button class="btn-outline" id="btn-twitter" style="flex:1">🐦 트위터 공유</button>
       </div>
     </div>
@@ -849,11 +849,28 @@
       if (btnPdf) btnPdf.addEventListener("click", generatePDF);
 
       const btnKakao = document.getElementById("btn-kakao");
-      if (btnKakao) btnKakao.addEventListener("click", () => {
-        const url = window.location.href.split("?")[0];
-        // KakaoTalk share via URL scheme (opens kakao if installed, otherwise web)
-        const text = encodeURIComponent("MVP 부모유형 진단 — 나의 육아 성향을 알아보세요!");
-        window.open(`https://story.kakao.com/share?url=${encodeURIComponent(url)}&text=${text}`, "_blank");
+      if (btnKakao) btnKakao.addEventListener("click", async () => {
+        const url = "https://kimchulhee9-ux.github.io/mvp/";
+        const scores = calcScores();
+        const type = analyzeType(scores);
+        const r = RESULTS[type];
+        const shareData = {
+          title: "MVP 부모유형 진단",
+          text: `나의 부모유형은 "${r.name}" ${r.emoji}\n${r.summary}\n\n나도 테스트해보기 👇`,
+          url: url,
+        };
+        if (navigator.share) {
+          try {
+            await navigator.share(shareData);
+          } catch (e) {
+            if (e.name !== "AbortError") {
+              navigator.clipboard.writeText(url).then(() => showToast("📋 링크가 복사되었습니다! 카카오톡에 붙여넣기 하세요."));
+            }
+          }
+        } else {
+          // 데스크톱 등 미지원 환경 → 링크 복사
+          navigator.clipboard.writeText(url).then(() => showToast("📋 링크가 복사되었습니다! 카카오톡에 붙여넣기 하세요."));
+        }
       });
 
       const btnTwitter = document.getElementById("btn-twitter");
