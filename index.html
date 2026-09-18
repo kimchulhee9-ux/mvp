@@ -528,8 +528,15 @@
     }
 
     @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-5px);
+      }
     }
 
     .auth-title-tag {
@@ -589,10 +596,27 @@
     }
 
     @keyframes shake {
-      10%, 90% { transform: translate3d(-2px, 0, 0); }
-      20%, 80% { transform: translate3d(4px, 0, 0); }
-      30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
-      40%, 60% { transform: translate3d(6px, 0, 0); }
+
+      10%,
+      90% {
+        transform: translate3d(-2px, 0, 0);
+      }
+
+      20%,
+      80% {
+        transform: translate3d(4px, 0, 0);
+      }
+
+      30%,
+      50%,
+      70% {
+        transform: translate3d(-6px, 0, 0);
+      }
+
+      40%,
+      60% {
+        transform: translate3d(6px, 0, 0);
+      }
     }
 
     .keypad-grid {
@@ -738,17 +762,20 @@
         margin: 12mm;
         size: A4 portrait;
       }
+
       body {
         background: #fff !important;
         color: #1a1a1a !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
+
       .container {
         max-width: 100% !important;
         padding: 0 !important;
         margin: 0 !important;
       }
+
       /* 인쇄 시 불필요한 상호작용 버튼 및 팝업 숨기기 */
       .btn-row,
       #toast,
@@ -757,6 +784,7 @@
       .type-grid {
         display: none !important;
       }
+
       .card,
       .result-card,
       .mini-card {
@@ -767,10 +795,12 @@
         break-inside: avoid;
         page-break-inside: avoid;
       }
+
       .chart-bar-bg {
         border: 1px solid #e2d2c2 !important;
         background: #f0e6dc !important;
       }
+
       .chart-bar-fill {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
